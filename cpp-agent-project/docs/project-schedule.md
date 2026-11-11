@@ -113,3 +113,20 @@ gantt
     Exploration and integration :milestone, m3, 2026-12-27, 0d
     Provisional final review :milestone, m4, 2027-01-31, 0d
 ```
+
+## Week 6 practical activities — inside the existing work packages
+
+The professors' additional Week 6 feedback refocuses **activity priorities, not the approved Gantt**. Keep all existing WP IDs, titles, owners, dates, person-hours and chart statuses unchanged.
+
+| WP | Responsible | Week 6 activity / remaining acceptance |
+|---|---|---|
+| WP-02 | Aiswarya | Review self-developed ScoutAgent, build and load it in the original Windows host, verify movement and pickup behavior |
+| WP-03 | Aiswarya | Investigate movement-observation uncertainty and a trusted-pose gate; persistent global memory remains unfinished |
+| WP-06 | Nirmal | Focus reading only on three source themes directly linked to implementation and metrics; actual reading notes pending |
+| WP-07 | Nirmal | Define map-coverage (simulator only), blocked requests, waits, flag-cell arrival and pickup-request metrics |
+| WP-08 | Nirmal | Run six authored offline development maps, reserve one untouched holdout and reproduce results on Windows |
+| WP-11 follow-up | Both | Confirm review decisions, actual individual contributions and repository commits; WP-11 remains Done in the approved Gantt |
+
+Existing Week 5 agent comparisons are **historical API/regression checks**. Week 6 evaluation is focused on **ScoutAgent against its own defined acceptance criteria on different maps**. Future comparisons in WP-09, if performed, must concern implemented validated variants under controlled conditions; no new StupidAgent-versus-ScoutAgent result is claimed here.
+
+**11 November status:** offline testing passed (19/19 ScoutAgent unit, 8/8 observation, six map fixtures, five native exports). Windows graphical-host tests, signed review and GitHub push remain pending/undocumented. See `research-plan.md`, `software-architecture.md` and `../devlog/developer-diary.md`.

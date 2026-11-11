@@ -123,3 +123,7 @@ Suggested research sequence: Verify host movement and interaction rules; measure
 **Notes for the research lead:** Record the exact publication passage reviewed, a short paraphrase of its claim, applicability to the 5 × 5 API, and one limitation. Keep bibliographic verification separate from full-text reading. No paper currently establishes that FBE + BFS + FSM will win this specific Capture The Flag competition.
 
 **Working research hypothesis:** Exploration-target selection and guarded game-state control may improve objective discovery and reliability on previously unseen maps relative to purely local safe movement. This remains *untested* and should be evaluated only after individual components are implemented.
+
+## Week 6 literature-use boundary (11 November 2026)
+
+Following professor feedback, **priority sources** for immediate work are R1 Yamauchi (future frontiers), R3 Korf (online decision context) and R5 Sturtevant (diverse, repeatable grid tests). ScoutAgent does **not** implement these authors' full methods. R2/R4/R6 remain background only until an engineering need is demonstrated; no new broad paper survey is required for Week 6. For each paper actually read, record reading date, pages/sections and one resulting code or evaluation decision in the existing [Research plan](research-plan.md) and [Developer diary](../devlog/developer-diary.md). The current summary is not proof of new individual full-text reading.

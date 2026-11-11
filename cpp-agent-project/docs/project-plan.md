@@ -204,3 +204,25 @@ cpp-agent-project/
     ├── AgentDLLTest/                 # reference
     └── Week02_HostandAgent/          # graphical-host example
 ```
+
+## 13. Week 6 implementation priorities and professor feedback (9–15 November 2026)
+
+**No Gantt changes:** the approved `docs/Gantt_Chart.xlsx` remains the source for all 14 WP titles, hours, dates, owners and statuses. The priorities below explain work *within* existing packages, not additional work packages or claimed completion.
+
+| Professor's request | Existing WP / responsible | Practical evidence / acceptance |
+|---|---|---|
+| Effective steps for software and research | WP-02/03 Aiswarya; WP-06/07/08 Nirmal | Sequence host/API checks → agent tests → map metrics → review; record commit, compiler and failure cases |
+| Create our **own** agent | WP-02 Aiswarya; WP-08 Nirmal testing | Distinct `scout_agent.cpp`, own test suite; 19 unit checks passed offline; Windows host remains pending |
+| Only necessary literature | WP-06 Nirmal | Focus on Yamauchi 1997, Korf 1990 and Sturtevant 2012 only where relevant; record actual sections read |
+| Explain strategy | WP-02/03 Aiswarya, research interpretation Nirmal | Safety gate → visible-goal local BFS → novelty-scored safe movement → WAIT; see `software-architecture.md` |
+| Add map tests | WP-07/08 Nirmal | Six development layouts and one unopened holdout; collect blocked requests, visits, waits and flag-cell arrivals in the offline simulator |
+
+**Suggested Week 6 execution order (assignments, not confirmed personal completion):**
+
+1. **Aiswarya (WP-02):** inspect agent source and Windows build; confirm all five DLL exports with the original host; document real movement and pickup outcomes or state explicitly why they are unverified.
+2. **Nirmal (WP-07/08):** reproduce the scripted unit/movement/map runs in MSYS2 UCRT64; record compiler, Git revision, map fixture, budget and results; leave `reserved_holdout.map` untouched during tuning.
+3. **Aiswarya (WP-03):** investigate snapshot-based motion ambiguity and a trusted-pose gate before building a persistent global map.
+4. **Nirmal (WP-06):** add only brief verified notes from the relevant sources showing exactly which strategy or measurement they influenced.
+5. **Both:** review code/results, update the existing diary, confirm actual authors/testers and push the changes. Do not mark WP-02/03/06/07/08 complete based only on standalone tests.
+
+**Recorded preparation evidence (11 Nov 2026):** 19/19 ScoutAgent tests, 8/8 synthetic movement tests, six development-map fixtures and 5/5 Linux exported symbols passed in a separate environment. This is not Windows host certification or personal execution evidence for either team member. See [Research plan](research-plan.md) for map metrics and hypotheses, [Software architecture](software-architecture.md) for technical implementation and host checklist, and the [Developer diary](../devlog/developer-diary.md) for dated status.
