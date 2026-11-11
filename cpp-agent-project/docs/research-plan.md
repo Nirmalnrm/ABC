@@ -156,13 +156,50 @@ The known-grid BFS prototype has already passed five standalone tests in Week 5.
 
 
 
-## 10. Week 6 — Practical research-to-code evidence (11 November 2026)
+## 10. Week 6 — Focused own-agent experiment and reproducible results (11 November 2026)
 
-- **Primary question:** Does the current ScoutAgent select safe, valid moves and pursue a locally visible reachable flag across several different, independently authored layouts?
-- **Current version:** local observation, conservative movement policy, local novelty heuristic and local BFS to a visible goal; this is **not yet trusted global mapping or full FBE/FSM**.
-- **Maps and measurements:** six development scenarios and a reserved holdout fixture; report traversable cells visited in the simulator, blocked requests, wait requests, first arrival at the flag cell and pickup **requests**. These are offline simulator metrics, not actual host movement/possession.
-- **Separate-environment evidence:** 19/19 own-agent unit checks, 8/8 synthetic movement-observation checks and 6/6 development map fixtures passed on 11 November; see `week06-map-test-results.md` and `week06-test-log.txt`.
-- **Reading focus:** Yamauchi (frontiers and prerequisites for map knowledge), Korf (online decisions) and Sturtevant (grid evaluation). The fact that notes are prepared does not certify personal full-text reading.
-- **Next validity checks:** rebuild the DLL on Windows, examine actual host behavior, repeat runs on frozen agent revisions, avoid tuning on the holdout map, and record environmental/tester/commit metadata.
+Following professor feedback, the immediate research target is **our own ScoutAgent**, not a new performance comparison with `StupidAgent`. Earlier baseline discussions remain historical and WP-09's later validated-variant comparisons are not yet performed. This section merges strategy-linked literature, hypotheses, detailed map measurements, limits and pending research actions in the existing Research Plan.
 
-See `agent-strategy.md`, `week06-research-to-code-decisions.md`, and `week06-host-checklist.md`.
+### 10.1 Only literature relevant to current engineering decisions
+
+| Existing source | Concept used | Our current implementation/measurement boundary |
+|---|---|---|
+| Yamauchi (1997), frontier exploration (R1) | Exploration at known/unknown boundaries | Motivates future map-aware frontier choice; **ScoutAgent is only local novelty, not FBE** |
+| Korf (1990), real-time heuristic search (R3) | Repeated decisions using current perception | Motivates an online stepwise decision, **not** a claim that Korf's algorithm is implemented |
+| Sturtevant (2012), grid benchmarks (R5) | Diverse map layouts and repeatable measurements | Motivates six authored development layouts and a reserved holdout, **not** use of official benchmark maps |
+
+A*, D* Lite and LPA* reading/development are deferred unless a verified need arises. **This selection is based on the existing project literature survey; it is not proof that Nirmal personally read new full-text sections on 11 November.** Record page/section, date and exact design consequence after reading.
+
+### 10.2 Own-agent testable hypotheses
+
+| ID / question | Observable hypothesis | Current evidence and limitation |
+|---|---|---|
+| H1 / RQ1 | ScoutAgent requests **zero known-blocked moves** on the authored development maps | All six offline fixtures: zero such requests; host behavior unknown |
+| H2 / RQ2 | ScoutAgent reaches predefined **simulator coverage** thresholds under fixed step budgets | Six fixtures met thresholds; simulator coordinates are not agent-known coordinates |
+| H3 / RQ3 | For a visible reachable enemy flag, local BFS chooses a safe first step | Agent unit checks and five simulated flag-cell arrivals; flag pickup/possession unverified |
+| H4 / RQ4 | Consecutive local views may leave physical movement uncertain | Eight synthetic movement-observation checks passed; helper is not integrated with host |
+
+### 10.3 Executed separate-environment tests
+
+**Environment:** Linux `g++` on 11 Nov 2026, not original Windows graphical host. Agent unit tests **19/19**, motion-observation tests **8/8**, map fixtures **6/6**, native API export symbol checks **5/5**; no claim of successful Windows DLL loading or competition wins. The test programs were compiled with `-std=c++17 -O2 -Wall -Wextra -pedantic` (native stricter compilation also checked separately in the earlier evidence).
+
+| Authored map | Purpose | Step budget | Simulator visited / floor | Blocked requests | Waits | First flag-cell arrival (step) | Pickup requests |
+|---|---|---:|---:|---:|---:|---:|---:|
+| `open_arena.map` | Open floor | 180 | 77/77 | 0 | 0 | 13 | 5 |
+| `corridor_turns.map` | Turns and narrow corridors | 180 | 49/49 | 0 | 0 | 15 | 3 |
+| `branching_deadends.map` | Dead ends / branches | 180 | 54/54 | 0 | 0 | 20 | 4 |
+| `blocked_start.map` | No legal adjacent floor | 12 | 1/1 | 0 | 12 | N/A (no flag) | 0 |
+| `two_rooms.map` | Connection through narrow gap | 180 | 85/85 | 0 | 0 | 82 | 2 |
+| `zigzag_barriers.map` | Offset walls | 180 | 111/111 | 0 | 0 | 90 | 2 |
+
+**Acceptance rules:** all six require zero blocked requests; traversable-cell visit thresholds are 50, 30, 30, 1, 50, 70 respectively in the table order; for the five layouts with flags, require arrival at the flag cell and at least one **pickup request**. These are developer-authored simulator thresholds, **not official competition criteria**. The seventh fixture `reserved_holdout.map` is **not run during development**, to be used after freezing the agent revision. Raw captured separate-environment run: [`../evidence/week06-local-verification-2026-11-11.txt`](../evidence/week06-local-verification-2026-11-11.txt).
+
+**Critical limitations:** The simulator knows physical positions and reports visited cells. ScoutAgent itself observes only local `cells[5][5]`, and its requested actions may fail in the real host. A pickup **request** is not evidence of possession, return, delivery or win. The movement-observation helper is experimental and can classify outcomes as ambiguous. No 80 × 50 competition map coverage, statistical superiority or reliable absolute location is claimed.
+
+### 10.4 Research reproducibility and next steps
+
+1. Nirmal: rerun `bash tests/Week02_HostandAgent/run_week6_tests.sh` on Windows, record date, `g++ -dumpmachine`, `g++ --version`, `git rev-parse --short HEAD`, exact outputs and any failures in the **existing developer diary**.
+2. Aiswarya: build/load the Windows DLL in the unchanged original host; record observed movement and pickup feedback as evidence, not inferred success. The executable checklist is in [Software architecture](software-architecture.md).
+3. Keep `reserved_holdout.map` unseen during tuning and run it only after freezing the agent version.
+4. Maintain step budgets, initial state, compiler, source version, map input, blocked requests, waits, simulator visitation, flag-cell arrivals and pickup requests. If later controlled tests compare own-agent revisions, vary one planned strategy component at a time.
+5. Record actual paper sections read, actual teammate review and GitHub push only when personally verified. The approved Gantt remains unchanged.

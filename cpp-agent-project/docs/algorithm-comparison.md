@@ -3,7 +3,7 @@
 **Authors:** Nirmal Mohan (research lead); Aiswarya Payakkal Vinayan (technical reviewer)  
 **Status:** Historical design comparison based on source inspection and literature.
 
-**Week 6 scope note:** The professor requested **our own agent rather than another `StupidAgent` comparison**. This document remains useful as background and API history; practical Week 6 implementation and evaluation now center on `scout_agent.cpp`, authored map fixtures, and within-agent improvements. See `agent-strategy.md` and `week06-map-test-results.md`. The Gantt is unchanged.
+**Week 6 scope note:** The professor requested **our own agent rather than another `StupidAgent` comparison**. This document remains useful as background and API history; practical Week 6 implementation and evaluation now center on `scout_agent.cpp`, authored map fixtures, and within-agent improvements. See `software-architecture.md` for the implemented strategy and `research-plan.md` for per-map test evidence. The Gantt is unchanged.
 ## 1. Game and API assumptions
 
 The `agent_api.h` defines a `WorldSnapshot` with `cells[5][5]` indexed as `[y][x]`, with the agent at the center `[2][2]`. Each `uint32_t` cell combines terrain (`CELLTYPE_BITMASK = 0x00FF`) and contents (`CELLCONTENT_BITMASK = 0xFF00`). The agent selects from eight compass moves, wait, pick-up, or put-down actions. Five DLL exports handle agent creation, state, reset, step decisions, and cleanup.

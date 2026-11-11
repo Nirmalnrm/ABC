@@ -228,3 +228,60 @@ The host provides map **dimensions**, but not the player's absolute coordinates.
 
 Nirmal will use the WP-02 test definitions to decide which measured outcomes can be logged directly (valid actions, known-blocked *requests*) and which require additional host evidence (actual movement, revisits, flag success). The same fixture definitions should be reused for comparisons wherever possible. See [Research Plan](research-plan.md) for the Week 5 experimental protocol.
 
+## 11. Week 6 ScoutAgent implementation and Windows-host validation
+
+**Source:** `tests/Week02_HostandAgent/scout_agent.cpp` (a new agent, not the professor's random example). The original `agent_api.h` and `host.exe` must remain unchanged.
+
+### 11.1 Implemented step strategy
+
+1. Decode the 5 × 5 `WorldSnapshot` around local `[2][2]`, distinguishing known floor/wall/unknown and occupied cells.
+2. If the visible enemy flag is reachable inside *known local floor* and the pickup cooldown permits it, choose the first action of a four-direction **local BFS** shortest route. On the current flag cell, **request** `ACTION_PICK_UP_FLAG` once and use a cooldown; do not infer successful possession.
+3. Otherwise collect safe **cardinal** neighboring known-floor, unoccupied cells. Score moves using the frequency of choices made for similar 5 × 5 observation fingerprints, *tentative* visit counts, forward continuity and avoidance of immediate reverse requests.
+4. Return the chosen legal action or `ACTION_WAIT` when no safe neighbor exists; reset temporary state in `Agent_Reset`.
+
+**Untrusted heuristic:** `tentativeX/tentativeY` and related visits *assume* requested moves succeeded. They are **not verified coordinates** and must not be used to build a trusted global map or perform true Frontier-Based Exploration. The current agent does not implement global FBE, the full game-objective FSM, confirmed flag acquisition/return or match-win logic.
+
+**Standalone diagnostic:** `movement_evidence.h` and `movement_evidence_test.cpp` compare pairs of synthetic terrain snapshots and return evidence consistent with moving, staying or **ambiguous**. Its eight passing tests show a limitation of observation-only motion detection. The helper is not integrated into ScoutAgent and has not been validated in the graphical host.
+
+### 11.2 Week 6 testing boundary
+
+- **19/19** ScoutAgent behavior/API unit checks passed in a separate Linux environment.
+- **8/8** synthetic movement-observation checks passed.
+- **6/6** offline map fixtures passed (five navigable flag layouts plus one blocked start): no blocked requests, required simulator visits and flag-cell arrivals/pickup **requests** where applicable.
+- **5/5** C-linkage symbol checks passed in a native Linux shared library, **not** a Windows DLL or graphical-host test.
+- Detailed per-map numbers, budgets and hypothesis definitions are in [Research plan](research-plan.md). Full captured run: [`../evidence/week06-local-verification-2026-11-11.txt`](../evidence/week06-local-verification-2026-11-11.txt).
+
+### 11.3 Windows-host verification checklist — to be filled after actual execution
+
+Use **MSYS2 UCRT64**, the unchanged Week 2 API and the original host:
+
+```bash
+cd /c/Users/nirma/class/cpp/cpp-agent-project
+pwd
+g++ -dumpmachine
+bash tests/Week02_HostandAgent/run_week6_tests.sh
+cd tests/Week02_HostandAgent
+ls -l scout_agent.dll host.exe
+./host.exe scout_agent.dll
+```
+
+- [ ] All scripted checks pass on the team PC; record compiler target, date and commit.
+- [ ] Windows `scout_agent.dll` builds and the original `host.exe` loads it with no export errors.
+- [ ] The host logs legal actions; note several examples and whether actual displacement can be **observed**.
+- [ ] A controlled wall/corridor attempt distinguishes requested moves from accepted/disallowed physical movement, or is explicitly recorded as ambiguous.
+- [ ] Flag-cell arrival/pickup request is tested against actual host feedback; possession and return/delivery are recorded only when verified.
+- [ ] Reset/restart is observed; no crash in the local run.
+- [ ] Aiswarya records software review; Nirmal records his own test run, focused reading and metrics; both confirm actual individual contributions and GitHub submission.
+
+| Local Windows run field | Result (enter only after checking) |
+|---|---|
+| Date / tester / Git commit | _Not recorded_ |
+| Compiler / architecture | _Not recorded_ |
+| ScoutAgent test script | _Not locally confirmed_ |
+| DLL built; original host loaded | _Unverified_ |
+| Host action requests / real displacement | _Unverified_ |
+| Blocked-movement behavior | _Unverified_ |
+| Pickup request vs confirmed possession | _Unverified_ |
+| Team review / repository push | _Pending_ |
+
+**Host custom maps:** there is no demonstrated facility in the provided `host.exe` to load the ASCII map fixtures; they are **offline simulator inputs only**. The current document records a checklist, not claimed Windows-host test success.
