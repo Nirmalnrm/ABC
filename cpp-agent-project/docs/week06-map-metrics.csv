@@ -1,7 +1,0 @@
-map,step_budget,simulator_unique_cells,simulator_walkable_cells,blocked_move_requests,wait_requests,first_flag_cell_step,pickup_action_requests,source_sha256,environment
-open_arena.map,180,77,77,0,0,13,5,512dd6e9d81a3fcbfc3913bb0078f077fa54e32d019bbda76fde953b23fbb37b,Linux g++ offline simulator 2026-11-11
-corridor_turns.map,180,49,49,0,0,15,3,512dd6e9d81a3fcbfc3913bb0078f077fa54e32d019bbda76fde953b23fbb37b,Linux g++ offline simulator 2026-11-11
-branching_deadends.map,180,54,54,0,0,20,4,512dd6e9d81a3fcbfc3913bb0078f077fa54e32d019bbda76fde953b23fbb37b,Linux g++ offline simulator 2026-11-11
-blocked_start.map,12,1,1,0,12,-1,0,512dd6e9d81a3fcbfc3913bb0078f077fa54e32d019bbda76fde953b23fbb37b,Linux g++ offline simulator 2026-11-11
-two_rooms.map,180,85,85,0,0,82,2,512dd6e9d81a3fcbfc3913bb0078f077fa54e32d019bbda76fde953b23fbb37b,Linux g++ offline simulator 2026-11-11
-zigzag_barriers.map,180,111,111,0,0,90,2,512dd6e9d81a3fcbfc3913bb0078f077fa54e32d019bbda76fde953b23fbb37b,Linux g++ offline simulator 2026-11-11
